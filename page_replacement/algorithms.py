@@ -1,4 +1,4 @@
-from system import Memory
+from .system import Memory
 
 
 def fifo(memory: Memory, page):
@@ -15,10 +15,12 @@ def lru(memory: Memory, page):
     if page not in memory.frame_list:
         memory.page_faults += 1
         if len(memory.frame_list) == memory.frames:
-            memory.frame_list.remove(page)
+            memory.frame_list.pop(0)
         memory.frame_list.append(page)
     else:
         memory.page_hits += 1
+        memory.frame_list.remove(page)
+        memory.frame_list.append(page)
 
 
 def second_chance(memory: Memory, page):
