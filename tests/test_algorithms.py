@@ -1,6 +1,6 @@
 import unittest
 from page_replacement.system import Memory
-from page_replacement.algorithms import fifo, lru
+from page_replacement.algorithms import fifo, lru, second_chance
 
 
 class MyTestCase(unittest.TestCase):
@@ -86,6 +86,33 @@ class MyTestCase(unittest.TestCase):
         self.assertSetEqual(set(memory.frame_list), {2, 8, 3})
         lru(memory, reference_sequence.pop(0))
         self.assertSetEqual(set(memory.frame_list), {9, 8, 3})
+
+    def test_second_chance1(self):
+        reference_sequence = [10, 1, 2, 3, 10, 1, 10, 1, 2, 3, 4]
+        memory = Memory(3)
+
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(10, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(10, 0), (1, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(10, 0), (1, 0), (2, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(3, 0), (1, 0), (2, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(10, 0), (2, 0), (3, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(1, 0), (3, 0), (10, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(1, 0), (3, 0), (10, 1)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(1, 1), (3, 0), (10, 1)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(1, 1), (2, 0), (10, 1)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(1, 0), (3, 0), (10, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(1, 0), (3, 0), (4, 0)})
 
 
 if __name__ == '__main__':
