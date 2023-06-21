@@ -114,6 +114,35 @@ class MyTestCase(unittest.TestCase):
         second_chance(memory, reference_sequence.pop(0))
         self.assertSetEqual(set(memory.frame_list), {(1, 0), (3, 0), (4, 0)})
 
+    def test_second_chance2(self):
+        reference_sequence = [7, 8, 1, 8, 3, 1, 4, 2, 3, 8, 3, 9]
+        memory = Memory(3)
+
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(7, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(7, 0), (8, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(7, 0), (8, 0), (1, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(7, 0), (8, 1), (1, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(3, 0), (8, 1), (1, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(3, 0), (8, 1), (1, 1)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(8, 0), (4, 0), (1, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(2, 0), (4, 0), (1, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(2, 0), (4, 0), (3, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(2, 0), (8, 0), (3, 0)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(2, 0), (8, 0), (3, 1)})
+        second_chance(memory, reference_sequence.pop(0))
+        self.assertSetEqual(set(memory.frame_list), {(9, 0), (8, 0), (3, 1)})
+
 
 if __name__ == '__main__':
     unittest.main()
